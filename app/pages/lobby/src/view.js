@@ -9,6 +9,7 @@ const btnCreateRoomWithoutTopic = document.getElementById(
   'btnCreateRoomWithoutTopic'
 );
 const txtTopic = document.getElementById('txtTopic');
+const imgUser = document.getElementById('imgUser');
 
 export default class View {
   static clearRoomList() {
