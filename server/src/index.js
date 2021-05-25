@@ -11,7 +11,10 @@ const server = await socketServer.start();
 
 const roomsPubSub = new Event();
 
-const roomsController = new RoomsController();
+const roomsController = new RoomsController({
+  roomsPubSub,
+});
+
 const lobbyController = new LobbyController({
   activeRooms: roomsController.rooms,
   roomsListener: roomsPubSub,
@@ -21,15 +24,6 @@ const namespaces = {
   room: { controller: roomsController, eventEmitter: new Event() },
   lobby: { controller: lobbyController, eventEmitter: roomsPubSub },
 };
-
-// namespaces.room.eventEmitter.on(
-//   'userConnected',
-//   namespaces.room.controller.onNewConnection.bind(namespaces.room.controller)
-// );
-
-// namespaces.room.eventEmitter.emit('userConnected', { id: '001' });
-// namespaces.room.eventEmitter.emit('userConnected', { id: '002' });
-// namespaces.room.eventEmitter.emit('userConnected', { id: '003' });
 
 const routeConfig = Object.entries(namespaces).map(
   ([namespaces, { controller, eventEmitter }]) => {
